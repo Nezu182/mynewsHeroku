@@ -20,7 +20,7 @@ class ProfileController extends Controller
         $this->validate($request,Profile::$rules);
         
         $profile = new Profile;
-        $from = $request->all();
+        $form = $request->all();
         
         unset($form['_token']);
         
@@ -44,16 +44,6 @@ class ProfileController extends Controller
         $this->validate($request, Profile::$request);
     
         $profile = Profile::find($request->id);
-        
-        $profile_form = $request->all();
-        if (isset($profile_form['image'])) {
-            $path = $request->file('image')->store('public/image');
-            $profile->image_path = basename($path);
-            unset($profile_form['image']);
-        } elseif (isset($request->remove)) {
-          $profile->image_path = unll;
-          unset($profile_form['remove']);
-        }
         
         unset($profile_form['_token']);
     
