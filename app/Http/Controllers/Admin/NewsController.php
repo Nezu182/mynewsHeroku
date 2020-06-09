@@ -82,13 +82,13 @@ class NewsController extends Controller
       
       // 送信されてきたフォームデータを格納する
       $news_form = $request->all();
-      if ($request->remove == 'true') {
-          $news_form['image_path'] = null;
-      } elseif ($request->file('image')) {
-          $path = $request->file('image')->store('public/image');
-          $news_form['image_path'] = basename($path);
-      } else {
-          $news_form['image_path'] = $naws->image_path;
+      if (isset($news_form['image'])) {
+        $path = $request->file('image')->store('public/image');
+        $news->image_path = basename($path);
+        unset($news_form['image']);
+      } elseif (isset($request->remove)) {
+        $news->image_path = null;
+        unset($news_form['remove']);
       }
       
       unset($news_form['_token']);
