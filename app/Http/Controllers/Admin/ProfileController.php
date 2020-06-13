@@ -17,6 +17,19 @@ class ProfileController extends Controller
         return view('admin.profile.create');
     }
 
+public function index(Request $request)
+  {
+      $cond_title = $request->cond_title;
+      if ($cond_title != '') {
+          
+          $posts = Profile::where('title', $cond_title)->get();
+      } else {
+          
+          $posts = Profile::all();
+      }
+      return view('admin.profile.index', ['posts' => $posts, 'cond_title' => $cond_title]);
+  }
+
     public function create(Request $request)
     {
         $this->validate($request,Profile::$rules);
@@ -58,6 +71,15 @@ class ProfileController extends Controller
         $history->edited_at = Carbon::now();
         $history->save();
     
-        return redirect('admin/profile/');
+        return redirect('admin/profile');
     }
+    
+    public function delete(Request $request)
+  {
+      
+      $profile = Profile::find($request->id);
+      
+      $profile->delete();
+      return redirect('admin/profile/');
+  }  
 }
