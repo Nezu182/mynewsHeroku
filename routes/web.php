@@ -11,9 +11,7 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+
 
 Route::group(['prefix' => 'admin'], function() {
     Route::get('news/create', 'Admin\NewsController@add')->middleware('auth');
@@ -22,6 +20,7 @@ Route::group(['prefix' => 'admin'], function() {
     Route::get('news/edit', 'Admin\NewsController@edit')->middleware('auth');
     Route::post('news/edit', 'Admin\NewsController@update')->middleware('auth');
     Route::get('news/delete', 'Admin\NewsController@delete')->middleware('auth');
+   
 });
 
 // Route::get('XXX', 'Admin\AAAController@bbb');
@@ -37,5 +36,6 @@ Route::get('admin/profile/delete', 'Admin\ProfileController@delete')->middleware
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
-
+Route::get('/', 'NewsController@index');
+Route::get('/profile', 'ProfileController@index');
 
